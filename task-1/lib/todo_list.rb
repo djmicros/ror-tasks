@@ -45,6 +45,22 @@ class TodoList
 	@complete.select{|x| x = "false"}
 	end
 	
+	def remove_item(num)
+	@items.delete_at(num)
+	end
+	
+	def remove_complete
+	@complete.reject!
+	end
 
-  
+	def revert(num1,num2)
+	first = @items[num1]
+	second = @items[num2]
+	@items[num1] = second
+	@items[num2] = first
+	end
+
+	def revert_all
+	@items.reverse
+	end
 end

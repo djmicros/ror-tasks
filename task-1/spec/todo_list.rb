@@ -54,15 +54,29 @@ describe TodoList do
       list.complete(0)
       list.completed?(0).should be_true
     end
+
+    it "should return all uncompleted items" do
+      list.uncompleted.should be_true
+    end
+	
+	
+    it "should remove item" do
+	 list.remove_item(0).should be_true
+    end
+
+	it "should remove all complete items" do
+		list.remove_complete.should be_true
+	end
+
+	it "should revert order of two items" do
+		list.revert(0,1).should be_true
+	end
+
+	it "should revert order of all items" do
+		list.revert_all.should be_true
+	end
+
   end
   
-	it "should return all completed items" do
-		list.completed.should be_true
-	end
-	
-	it "should return all uncompleted items" do
-		list.uncompleted.should be_true
-	end
-	
 		
 end
