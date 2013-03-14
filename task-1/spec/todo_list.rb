@@ -55,4 +55,14 @@ describe TodoList do
       list.completed?(0).should be_true
     end
   end
+  
+	it "should return all completed items" do
+		list.completed.should be_true
+	end
+	
+	it "should return all uncompleted items" do
+		list.uncompleted.should be_true
+	end
+	
+		
 end
