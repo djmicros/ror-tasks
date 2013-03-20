@@ -45,6 +45,10 @@ class Item
   	@items.push(Item.new(item))
   end
   
+  def item(index)
+	@items[index]
+  end
+	
   def first
 	@items.first
   end
@@ -61,5 +65,63 @@ class Item
   	@items[index].completed = true
   end
   
+  def completed 
+	@items.select { |item| item.completed }
+  end
+  
+  def uncompleted
+    @items.reject { |item| item.completed }
+  end
+  
+  def remove (index)
+	if (index >= 0 and index < @items.size)
+      @items.delete_at(index)
+    else
+      raise IndexOutOfBounds
+    end
+  end
+  
+  def remove_completed
+    @items.reject! { |item| item.completed }
+  end
+  
+  def reverse(one, two)
+      [one, two].each do |index|
+      raise IndexOutOfBounds if (index < 0 or index >= @items.size)
+      end
+	first = @items[one]
+	second = @items[two]
+	@items[one] = second
+	@items[two] = first
+  end
+  
+  def reverse_all
+  @items.reverse!
+  end
+  
+  def toggle (index)
+	if @items[index].completed == true
+	@items[index].completed = false
+	else
+	@items[index].completed = true
+	end
+  end
+  
+  def make_uncomplete (index)
+  @items[index].completed = false
+  end
+  
+  def change_desc (index, desc)
+	@items[index].description = desc
+  end
+  
+  def sort
+	@items.sort! { |a,b| a.description.downcase <=> b.description.downcase }
+  end
+  
+  def to_s
+    (@items.collect { |item| item.formated }).join("\n")
+  end
+
   
 end
