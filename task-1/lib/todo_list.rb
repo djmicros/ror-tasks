@@ -46,7 +46,11 @@ class Item
   end
   
   def item(index)
+    	if (index >= 0 and index < @items.size)
 	@items[index]
+	else
+      raise IndexOutOfBounds
+    end
   end
 	
   def first
@@ -58,11 +62,19 @@ class Item
   end
   
   def completed?(index)
+  	if (index >= 0 and index < @items.size)
     @items[index].completed
+	else
+      raise IndexOutOfBounds
+    end
   end
   
   def complete(index)
+  	if (index >= 0 and index < @items.size)
   	@items[index].completed = true
+	else
+      raise IndexOutOfBounds
+    end
   end
   
   def completed 
@@ -100,19 +112,31 @@ class Item
   end
   
   def toggle (index)
+      if (index >= 0 and index < @items.size)
 	if @items[index].completed == true
 	@items[index].completed = false
 	else
 	@items[index].completed = true
 	end
+	  	else
+      raise IndexOutOfBounds
+    end
   end
   
   def make_uncomplete (index)
+    if (index >= 0 and index < @items.size)
   @items[index].completed = false
+  	else
+      raise IndexOutOfBounds
+    end
   end
   
   def change_desc (index, desc)
+  if (index >= 0 and index < @items.size)
 	@items[index].description = desc
+	else
+      raise IndexOutOfBounds
+    end
   end
   
   def sort
