@@ -64,19 +64,33 @@ describe TodoList do
     let(:items)             { [item_description, another_item_description, yet_another_item_description] }
 
 	it "should return completed items" do
-	list.completed
+	list.complete(0)
+	
+	list.completed.to_s.should == "["+list.item(0).to_s+"]"
 	end
 	
 	it "should return uncompleted items" do
-	list.uncompleted
+	list.make_uncomplete(0)
+	list.complete(1)
+	list.complete(2)
+	
+	list.uncompleted.to_s.should == "["+list.item(0).to_s+"]"
 	end
 	
 	it "should remove individual item" do
+	first = list.item(0)
+	second = list.item(1)
 	list.remove(0)
+	
+	list.item(0).should_not == first && list.item(0).should == second
 	end
 	
 	it "should remove completed items" do
+	list.complete(0)
+	count = list.size
+	
 	list.remove_completed
+	list.size.should == count-1
 	end
 	
 	it "should reverse order of two items" do
