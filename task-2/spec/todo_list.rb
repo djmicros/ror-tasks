@@ -38,6 +38,8 @@ describe TodoList do
   end
 
   it "should persist the state of the item" do
+	mock(database).get_todo_item(0) { item }
+	mock(database).get_todo_item(0) { item }
     mock(database).todo_item_completed?(0) { false }
     mock(database).complete_todo_item(0,true) { true }
     mock(database).todo_item_completed?(0) { true }
@@ -64,7 +66,24 @@ describe TodoList do
     mock(database).get_todo_item(5) { nil }
     list.last.should == nil
   end
+  
+	it "should return nil for the first and the last item if the DB is empty" do
+	stub(database).items_count { 0 }
+	mock(database).get_todo_item(0) { nil }
+	mock(database).get_todo_item(0) { nil }
+	#mock(database).get_todo_item(0) { item }
+    list.first.should == nil
+	list.last.should == nil
+	end
 
+	it "should raise an exception when changing the item state if the item is nil" do
+	mock(database).get_todo_item(0) { nil }
+	expect{ list.toggle_state(0) }.to raise_error(IllegalArgument)	
+	end
+	
+	
+	
+	
   context "with empty title of the item" do
     let(:title)   { "" }
 
@@ -72,6 +91,37 @@ describe TodoList do
       dont_allow(database).add_todo_item(item)
 
       list << item
-    end
+    end	
   end
+  
+     context "when item is nil" do
+    let(:item)   { nil }
+
+    it "should not accept item" do
+      expect{ list << item }.to raise_error(IllegalArgument)
+    end
+	end
+	
+	  context "with to short title of the item (shorter than 6 characters)" do
+    let(:title)   { "ABC" }
+
+    it "should not add the item to the DB" do
+      dont_allow(database).add_todo_item(item)
+
+      list << item
+    end	
+  end
+  
+  	  context "with missing description of the item" do
+    let(:description)   { nil }
+
+    it "should accept the item" do
+    mock(database).add_todo_item(item) { true }
+    mock(database).get_todo_item(0) { item }
+
+    list << item
+    list.first.should == item
+    end	
+  end
+	
 end
