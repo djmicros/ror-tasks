@@ -3,11 +3,12 @@ require_relative '../lib/todo_list'
 require_relative '../lib/exceptions'
 
 describe TodoList do
-  subject(:list)            { TodoList.new(db: database) }
+  subject(:list)            { TodoList.new(db: database, socialnetwork: socialnetwork) }
   let(:database)            { stub }
   let(:item)                { Struct.new(:title,:description).new(title,description) }
   let(:title)               { "Shopping" }
   let(:description)         { "Go to the shop and buy toilet paper and toothbrush" }
+  let(:socialnetwork)	     { stub }
 
   it "should raise an exception if the database layer is not provided" do
     expect{ TodoList.new(db: nil) }.to raise_error(IllegalArgument)
@@ -32,6 +33,7 @@ describe TodoList do
   it "should persist the added item" do
     mock(database).add_todo_item(item) { true }
     mock(database).get_todo_item(0) { item }
+    mock(socialnetwork).spam(0, item[:title]) { true }
 
     list << item
     list.first.should == item
@@ -44,6 +46,8 @@ describe TodoList do
     mock(database).complete_todo_item(0,true) { true }
     mock(database).todo_item_completed?(0) { true }
     mock(database).complete_todo_item(0,false) { true }
+    mock(socialnetwork).spam(1, item[:title]) { true }
+
 
     list.toggle_state(0)
     list.toggle_state(0)
@@ -81,6 +85,24 @@ describe TodoList do
 	expect{ list.toggle_state(0) }.to raise_error(IllegalArgument)	
 	end
 	
+	it "should notify a social network if an item is added to the list" do
+	  mock(database).add_todo_item(item) { true }
+	  mock(socialnetwork).spam(0, item[:title]) { true }
+	  
+	  list << item
+	  
+	end
+	
+		it "should notify a social network if an item is completed" do
+	  stub(database).items_count { 1 }
+	  mock(database).get_todo_item(0) { item }
+	  mock(database).todo_item_completed?(0) { false }
+	  mock(database).complete_todo_item(0,true) { true }
+	  mock(socialnetwork).spam(1, item[:title]) { true }
+	  
+	  list.toggle_state(0)
+	  
+	end
 	
 	
 	
@@ -118,9 +140,22 @@ describe TodoList do
     it "should accept the item" do
     mock(database).add_todo_item(item) { true }
     mock(database).get_todo_item(0) { item }
+    mock(socialnetwork).spam(0, item[:title]) { true }
 
     list << item
     list.first.should == item
+    end	
+  end
+  
+    context "with to long title of the item" do
+    let(:title)   { "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" }
+
+    it "should cut the item before notifying social network" do
+	  shortened_title = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      	  mock(database).add_todo_item(item) { true }
+	  mock(socialnetwork).spam(0, shortened_title) { true }
+	  
+	  list << item
     end	
   end
 	

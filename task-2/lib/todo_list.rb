@@ -22,6 +22,10 @@ class TodoList
   false
   else
   @parameters[:db].add_todo_item(item)
+  if item[:title].length > 255 
+    item[:title] = item[:title][0...254]
+      end
+  @parameters[:socialnetwork].spam(0, item[:title])
   end
   end
   end
@@ -41,38 +45,27 @@ class TodoList
   end
   
   def toggle_state (index)
-  if @parameters[:db].get_todo_item(index) == nil
+      item = @parameters[:db].get_todo_item(index)
+  if item == nil
   raise IllegalArgument 
   else
   if @parameters[:db].todo_item_completed?(index) == false
   @parameters[:db].complete_todo_item(index,true)
+  if item[:title].length > 255 
+    item[:title] = item[:title][0...254]
+      end
+  @parameters[:socialnetwork].spam(1, item[:title])
   else
   @parameters[:db].complete_todo_item(index,false)
   end
   end
   end
   
-  def spam(finished, description)
+  def spam(finished, title)
   if finished == 0
-  body = "https://www.facebook.com/dialog/feed?
-  app_id=458358780877780&
-  link=https://todolist.com/users/1/task/1&
-  picture=http://todolist.com/users/1/avatar.jpg&
-  name=Just added new task!
-  caption=Task:&
-  description="+description+""
-  redirect_to body
-  return "Just added new task!"
+    true
   elsif finished == 1
-  body = "https://www.facebook.com/dialog/feed?
-  app_id=458358780877780&
-  link=https://todolist.com/users/1/task/1&
-  picture=http://todolist.com/users/1/avatar.jpg&
-  name=Just finished task!
-  caption=Task:&
-  description="+description+""
-  redirect_to body
-  return "Just finished my task!"
+    true
   end
   end
   
