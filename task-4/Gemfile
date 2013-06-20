@@ -1,7 +1,7 @@
 source "http://www.rubygems.org"
 
-gem "activerecord", "3.2.13"
+gem "activerecord"
 gem "rake", "10.0.4"
 gem 'sqlite3'
 gem 'rspec'
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'sqlite3_ar_regexp'

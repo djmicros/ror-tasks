@@ -1,0 +1,33 @@
+first_todo_item:
+  title: "Pierwszy item"
+  todo_list: first_list
+  description: "Zaliczylem projekt z rubiego"
+  date_due: <%= Date.parse("01/01/1992") %>
+second_todo_item:
+  title: "Drugi item"
+  todo_list: second_list
+  description: "asdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdfasdfsadfasdfasdf"
+  date_due: <%= Date.parse("13/01/2020") %>
+third_todo_item:
+  title: "Trzeci item"
+  todo_list: first_list
+  description: "Pyry"
+  date_due: <%= Date.parse("01/01/1992") %>
+fourth_todo_item:
+  title: "Czwarty item"
+  todo_list: first_list
+  description: "Grule"
+  date_due: <%= Date.parse("21/06/2013") %>
+fifth_todo_item:
+  title: "Piaty item"
+  todo_list: second_list
+  description: "Brambory"
+sixth_todo_item:
+  title: "Szosty item"
+  todo_list: second_list
+  description: "Grule"
+  date_due: <%= Date.parse("01/01/1992") %>
+seventh_todo_item:
+  title: "Siodmy item"
+  todo_list: second_list
+  description: "Brambory"

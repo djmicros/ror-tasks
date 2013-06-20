@@ -1,0 +1,13 @@
+first_user:
+  name: "Adrian"
+  surname: "Kuciel"
+  email: "djmicros@gmail.com"
+  password: "0123456789"
+second_user:
+  name: "Adrian2"
+  surname: "Kuciel2"
+  failed_login_count: 4
+third_user:
+  name: "Adrian3"
+  surname: "Mistrzunio"
+  failed_login_count: 4

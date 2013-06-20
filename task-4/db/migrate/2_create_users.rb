@@ -3,9 +3,9 @@ class CreateUsers < ActiveRecord::Migration
     create_table :users do |t|
       t.string :name
       t.string :surname
-	  t.string :email
-	  t.string :password_digest
-	  t.integer :failed_login_count, default: 0
+      t.string :password
+      t.string :email
+      t.integer :failed_login_count, default: 0
     end
   end
 end
